@@ -1,8 +1,6 @@
-﻿using FFImageLoading.Forms.Platform;
-using Foundation;
+﻿using Foundation;
 using PayPal.Forms;
 using PayPal.Forms.Abstractions;
-using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Ioc;
 using System;
@@ -25,7 +23,6 @@ namespace XamPaypal.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             global::Xamarin.Forms.Forms.Init();
             global::Xamarin.Forms.FormsMaterial.Init();
             var config = new PayPalConfiguration(PayPalEnvironment.NoNetwork, "XamPaypalID")
@@ -40,25 +37,8 @@ namespace XamPaypal.iOS
             };
             CrossPayPalManager.Init(config);
 
-            CachedImageRenderer.InitImageSourceHandler();
             LoadApplication(new App(new iOSInitializer()));
             return base.FinishedLaunching(app, options);
-        }
-        public override void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
-        {
-            FirebasePushNotificationManager.DidRegisterRemoteNotifications(deviceToken);
-        }
-
-        public override void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
-        {
-            FirebasePushNotificationManager.RemoteNotificationRegistrationFailed(error);
-
-        }
-        public override void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
-        {
-            FirebasePushNotificationManager.DidReceiveMessage(userInfo);
-            System.Console.WriteLine(userInfo);
-            completionHandler(UIBackgroundFetchResult.NewData);
         }
     }
     public class iOSInitializer : IPlatformInitializer

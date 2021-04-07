@@ -5,7 +5,6 @@ using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
-using FFImageLoading.Forms.Platform;
 using PayPal.Forms;
 using PayPal.Forms.Abstractions;
 using Prism;
@@ -24,7 +23,6 @@ namespace XamPaypal.Droid
 
             initFontScale();
 
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             base.OnCreate(savedInstanceState);
 
 
@@ -45,7 +43,6 @@ namespace XamPaypal.Droid
                 PhoneCountryCode = "52",
             };
             CrossPayPalManager.Init(config, this);
-            CachedImageRenderer.InitImageViewHandler();
             LoadApplication(new App(new AndroidInitializer()));
         }
         protected override void OnNewIntent(Intent intent)
